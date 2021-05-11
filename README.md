@@ -12,7 +12,7 @@
 ```
 #define	P_DYNAMIXEL_POWER               24
 #define DATA_DYNAMIXEL_POWER            gbpControlTable[P_DYNAMIXEL_POWER]
-DXL_SetPower(DATA_DYNAMIXEL_POWER);
+dxl_setPower(DATA_DYNAMIXEL_POWER);
 ```
 #### 实现Protocol 1.0协议
 下位机主板有一个重要功能，就是实现DXL协议上的单总线半双工和上位机串口双线全双工之间的数据通信。主板接收到上位机数据后会直接转发到DXL协议总线上，如果数据包ID和自己有关，则会执行相关处理。收到DXL协议总线上的数据后也会直接转发给上位机，如果数据包ID和自己有关，则会执行相关处理。
@@ -29,7 +29,7 @@ DXL_SetPower(DATA_DYNAMIXEL_POWER);
 
 volatile uint8_t gbpControlTable[CONTROL_TABLE_LEN+1];
 ```
-获取传感器数据由sensor.c文件中的`SensorGet()`函数实现，控制板载执行器由sensor.c文件中的`SensorSet()`函数实现。
+获取传感器数据由sensor.c文件中的`sensor_poll()`函数实现，控制板载执行器由sensor.c文件中的`sensor_set()`函数实现。
 #### 姿态传感器
 姿态传感器，包含三轴角速度和三轴加速度，总共六轴uint16_t类型的原始数据。相关代码如下：
 ```
@@ -55,7 +55,7 @@ volatile uint8_t gbpControlTable[CONTROL_TABLE_LEN+1];
 #define DATA_ACCEL_Z                  HALFWORD_CAST(gbpControlTable[P_ACC_Z])
 ```
 ```
-void SensorGetImu()
+void sensor_getImu()
 {
   ImuData_t imuData = {0};
   
@@ -113,7 +113,7 @@ rgb灯由数据寄存器的两个8位组成的16位数控制，由低到高每3�
 #define DATA_KEY5_STATUS                gbpControlTable[P_BUTTON+4]
 ```
 ```
-void SensorGetKey()
+void sensor_getKey()
 {
   uint8_t keyStatus = 0;
   

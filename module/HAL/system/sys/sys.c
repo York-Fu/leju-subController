@@ -31,7 +31,7 @@ __asm void MSR_MSP(u32 addr)
 
 
 
-void MCU_Reset(void)
+void sys_reset(void)
 {
   __disable_fault_irq();
   NVIC_SystemReset();

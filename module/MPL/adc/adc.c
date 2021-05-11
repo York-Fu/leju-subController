@@ -1,91 +1,92 @@
+/*
+ * @file    adc.c
+ * @author  fuyou
+ * @brief   ADC config and get
+ */
 #include "adc.h"
-#include "system/delay/delay.h"
-			  
-////////////////////////////////////////////////////////////////////////////////// 	
 
+static __IO uint16_t ADCxConvertedValue = 0;
 
-//初始化ADC															   
-void  Adc_Init(void)
-{    
-  GPIO_InitTypeDef  GPIO_InitStructure;
-	ADC_CommonInitTypeDef ADC_CommonInitStructure;
-	ADC_InitTypeDef ADC_InitStructure;
-	
-  //先初始化ADC1通道 IO口
-  GPIO_StructInit(&GPIO_InitStructure);
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;//模拟输入
-  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL ;//不带上下拉
-  
-  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);//使能GPIOA时钟
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;// 通道
-  GPIO_Init(GPIOC, &GPIO_InitStructure);//初始化  
- 
-  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE); //使能ADC1时钟
-	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,ENABLE);	  //ADC1复位
-	RCC_APB2PeriphResetCmd(RCC_APB2Periph_ADC1,DISABLE);	//复位结束	 
-	
-  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;//独立模式
-  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;//两个采样阶段之间的延迟5个时钟
-  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled; //DMA失能
-  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div4;//预分频4分频。ADCCLK=PCLK2/4=84/4=21Mhz,ADC时钟最好不要超过36Mhz 
-  ADC_CommonInit(&ADC_CommonInitStructure);//初始化
-	
-  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;//12位模式
-  ADC_InitStructure.ADC_ScanConvMode = DISABLE;//非扫描模式	
-  ADC_InitStructure.ADC_ContinuousConvMode = DISABLE;//关闭连续转换
-  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;//禁止触发检测，使用软件触发
-  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;//右对齐	
-  ADC_InitStructure.ADC_NbrOfConversion = 1;//1个转换在规则序列中 也就是只转换规则序列1 
-  ADC_Init(ADC1, &ADC_InitStructure);//ADC初始化
-	
-	ADC_Cmd(ADC1, ENABLE);//开启AD转换器	
-
-}				  
-//获得ADC值
-//ch: @ref ADC_channels 
-//通道值 0~16取值范围为：ADC_Channel_0~ADC_Channel_16
-//返回值:转换结果
-u16 Get_Adc(u8 ch)   
+uint16_t ADC_GetValue()
 {
-  uint16_t i = 0;
-
-  //设置指定ADC的规则组通道，一个序列，采样时间
-	ADC_RegularChannelConfig(ADC1, ch, 1, ADC_SampleTime_480Cycles );	//ADC1,ADC通道,480个周期,提高采样时间可以提高精确度			    
-  
-	ADC_SoftwareStartConv(ADC1);		//使能指定的ADC1的软件转换启动功能	
-	 
-	while(!ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC)) //等待转换结束
-  {
-    delay_us(1);
-    i++;
-    if(i>299)
-      return 0;
-  }
-
-	return ADC_GetConversionValue(ADC1);	//返回最近一次ADC1规则组的转换结果
+  return ADCxConvertedValue;
 }
-//获取通道ch的转换值，取times次,然后平均 
-//ch:通道编号
-//times:获取次数
-//返回值:通道ch的times次转换结果平均值
-u16 Get_Adc_Average(u8 ch,u8 times)
+
+/**
+  * @brief  ADCx channelx with DMA configuration
+  * @note   This function Configure the ADC peripheral  
+            1) Enable peripheral clocks
+            2) DMA2_Streamx channelx configuration
+            3) Configure ADC Channelx pin as analog input
+            4) Configure ADCx Channelx
+  * @param  None
+  * @retval None
+  */
+void ADC_Config(void)
 {
-	u32 temp_val=0;
-	u8 t;
-	for(t=0;t<times;t++)
-	{
-		temp_val+=Get_Adc(ch);
-		delay_us(1);
-	}
-	return temp_val/times;
-} 
-	 
+  GPIO_InitTypeDef GPIO_InitStructure;
+  ADC_InitTypeDef ADC_InitStructure;
+  ADC_CommonInitTypeDef ADC_CommonInitStructure;
+  DMA_InitTypeDef DMA_InitStructure;
 
+  /* Enable ADCx, DMA and GPIO clocks ****************************************/
+  RCC_AHB1PeriphClockCmd(ADCx_CHANNEL_GPIO_CLK, ENABLE);
+  RCC_APB2PeriphClockCmd(ADCx_CLK, ENABLE);
+  RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2, ENABLE);
 
+  /* Configure ADC Channel pin as analog input ******************************/
+  GPIO_InitStructure.GPIO_Pin = ADCx_GPIO_PIN;
+  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AN;
+  GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
+  GPIO_Init(ADCx_GPIO_PORT, &GPIO_InitStructure);
 
+  /* ADC Common Init **********************************************************/
+  ADC_CommonInitStructure.ADC_Mode = ADC_Mode_Independent;
+  ADC_CommonInitStructure.ADC_Prescaler = ADC_Prescaler_Div4;
+  ADC_CommonInitStructure.ADC_DMAAccessMode = ADC_DMAAccessMode_Disabled;
+  ADC_CommonInitStructure.ADC_TwoSamplingDelay = ADC_TwoSamplingDelay_5Cycles;
+  ADC_CommonInit(&ADC_CommonInitStructure);
 
+  /* ADC Init ****************************************************************/
+  ADC_InitStructure.ADC_Resolution = ADC_Resolution_12b;
+  ADC_InitStructure.ADC_ScanConvMode = DISABLE;
+  ADC_InitStructure.ADC_ContinuousConvMode = ENABLE;
+  ADC_InitStructure.ADC_ExternalTrigConvEdge = ADC_ExternalTrigConvEdge_None;
+  ADC_InitStructure.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
+  ADC_InitStructure.ADC_DataAlign = ADC_DataAlign_Right;
+  ADC_InitStructure.ADC_NbrOfConversion = 1;
+  ADC_Init(ADCx, &ADC_InitStructure);
 
+  /* DMA2 StreamX channelX configuration **************************************/
+  DMA_InitStructure.DMA_Channel = DMA_CHANNELx;
+  DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t)ADCx_DR_ADDRESS;
+  DMA_InitStructure.DMA_Memory0BaseAddr = (uint32_t)&ADCxConvertedValue;
+  DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralToMemory;
+  DMA_InitStructure.DMA_BufferSize = 1;
+  DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+  DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;
+  DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
+  DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
+  DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+  DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+  DMA_InitStructure.DMA_FIFOMode = DMA_FIFOMode_Disable;
+  DMA_InitStructure.DMA_FIFOThreshold = DMA_FIFOThreshold_HalfFull;
+  DMA_InitStructure.DMA_MemoryBurst = DMA_MemoryBurst_Single;
+  DMA_InitStructure.DMA_PeripheralBurst = DMA_PeripheralBurst_Single;
+  DMA_Init(DMA_STREAMx, &DMA_InitStructure);
+  DMA_Cmd(DMA_STREAMx, ENABLE);
 
+  /* ADC regular channel configuration **************************************/
+  ADC_RegularChannelConfig(ADCx, ADC_CHANNEL, 1, ADC_SampleTime_480Cycles);
 
+  /* Enable DMA request after last transfer (Single-ADC mode) */
+  ADC_DMARequestAfterLastTransferCmd(ADCx, ENABLE);
 
+  /* Enable ADC DMA */
+  ADC_DMACmd(ADCx, ENABLE);
 
+  /* Enable ADC */
+  ADC_Cmd(ADCx, ENABLE);
+  
+  ADC_SoftwareStartConv(ADCx);
+}

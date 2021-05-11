@@ -41,9 +41,11 @@
 #define LDE5_L()    GPIO_ResetBits(LED5_GPIO, LED5_PIN)
 
 
-void LedInit(void);
-void LedOn(uint8_t index);
-void LedOff(uint8_t index);
+void led_init(void);
+void led_on(uint8_t index);
+void led_off(uint8_t index);
+void led_set(uint8_t state);
+void led_allSwitch(uint8_t state);
 
 #endif
 

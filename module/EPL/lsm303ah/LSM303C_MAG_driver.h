@@ -48,18 +48,18 @@ typedef signed char i8_t;
 #define __SHARED__TYPES
 
 typedef union{
-	i16_t i16bit[3];
-	u8_t u8bit[6];
+  i16_t i16bit[3];
+  u8_t u8bit[6];
 } Type3Axis16bit_U;	
 
 typedef union{
-	i16_t i16bit;
-	u8_t u8bit[2];
+  i16_t i16bit;
+  u8_t u8bit[2];
 } Type1Axis16bit_U;
 
 typedef union{
-	i32_t i32bit;
-	u8_t u8bit[4];
+  i32_t i32bit;
+  u8_t u8bit[4];
 } Type1Axis32bit_U;
 
 typedef enum {
@@ -139,10 +139,10 @@ status_t LSM303C_MAG_R_WHO_AM_I_(void *handle, u8_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_MD_CONTINUOUS 		 =0x00,
-  	LSM303C_MAG_MD_SINGLE 		 =0x01,
-  	LSM303C_MAG_MD_POWER_DOWN 		 =0x02,
-  	LSM303C_MAG_MD_POWER_DOWN_AUTO 		 =0x03,
+    LSM303C_MAG_MD_CONTINUOUS 		 =0x00,
+    LSM303C_MAG_MD_SINGLE 		 =0x01,
+    LSM303C_MAG_MD_POWER_DOWN 		 =0x02,
+    LSM303C_MAG_MD_POWER_DOWN_AUTO 		 =0x03,
 } LSM303C_MAG_MD_t;
 
 #define  	LSM303C_MAG_MD_MASK  	0x03
@@ -156,8 +156,8 @@ status_t LSM303C_MAG_R_SystemOperatingMode(void *handle, LSM303C_MAG_MD_t *value
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_BDU_DISABLE 		 =0x00,
-  	LSM303C_MAG_BDU_ENABLE 		 =0x40,
+    LSM303C_MAG_BDU_DISABLE 		 =0x00,
+    LSM303C_MAG_BDU_ENABLE 		 =0x40,
 } LSM303C_MAG_BDU_t;
 
 #define  	LSM303C_MAG_BDU_MASK  	0x40
@@ -171,10 +171,10 @@ status_t LSM303C_MAG_R_BlockDataUpdate(void *handle, LSM303C_MAG_BDU_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_FS_4Ga 		 =0x00,
-  	LSM303C_MAG_FS_8Ga 		 =0x20,
-  	LSM303C_MAG_FS_12Ga 		 =0x40,
-  	LSM303C_MAG_FS_16Ga 		 =0x60,
+    LSM303C_MAG_FS_4Ga 		 =0x00,
+    LSM303C_MAG_FS_8Ga 		 =0x20,
+    LSM303C_MAG_FS_12Ga 		 =0x40,
+    LSM303C_MAG_FS_16Ga 		 =0x60,
 } LSM303C_MAG_FS_t;
 
 #define  	LSM303C_MAG_FS_MASK  	0x60
@@ -188,14 +188,14 @@ status_t LSM303C_MAG_R_FullScale(void *handle, LSM303C_MAG_FS_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_DO_0_625Hz 		 =0x00,
-  	LSM303C_MAG_DO_1_25Hz 		 =0x04,
-  	LSM303C_MAG_DO_2_5Hz 		 =0x08,
-  	LSM303C_MAG_DO_5Hz 		 =0x0C,
-  	LSM303C_MAG_DO_10Hz 		 =0x10,
-  	LSM303C_MAG_DO_20Hz 		 =0x14,
-  	LSM303C_MAG_DO_40Hz 		 =0x18,
-  	LSM303C_MAG_DO_80Hz 		 =0x1C,
+    LSM303C_MAG_DO_0_625Hz 		 =0x00,
+    LSM303C_MAG_DO_1_25Hz 		 =0x04,
+    LSM303C_MAG_DO_2_5Hz 		 =0x08,
+    LSM303C_MAG_DO_5Hz 		 =0x0C,
+    LSM303C_MAG_DO_10Hz 		 =0x10,
+    LSM303C_MAG_DO_20Hz 		 =0x14,
+    LSM303C_MAG_DO_40Hz 		 =0x18,
+    LSM303C_MAG_DO_80Hz 		 =0x1C,
 } LSM303C_MAG_DO_t;
 
 #define  	LSM303C_MAG_DO_MASK  	0x1C
@@ -218,8 +218,8 @@ status_t LSM303C_MAG_Get_Magnetic(void *handle,u8_t *buff);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ST_DISABLE 		 =0x00,
-  	LSM303C_MAG_ST_ENABLE 		 =0x01,
+    LSM303C_MAG_ST_DISABLE 		 =0x00,
+    LSM303C_MAG_ST_ENABLE 		 =0x01,
 } LSM303C_MAG_ST_t;
 
 #define  	LSM303C_MAG_ST_MASK  	0x01
@@ -233,10 +233,10 @@ status_t LSM303C_MAG_R_SelfTest(void *handle, LSM303C_MAG_ST_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_OM_LOW_POWER 		 =0x00,
-  	LSM303C_MAG_OM_MEDIUM 		 =0x20,
-  	LSM303C_MAG_OM_HIGH 		 =0x40,
-  	LSM303C_MAG_OM_ULTRA_HIGH 		 =0x60,
+    LSM303C_MAG_OM_LOW_POWER 		 =0x00,
+    LSM303C_MAG_OM_MEDIUM 		 =0x20,
+    LSM303C_MAG_OM_HIGH 		 =0x40,
+    LSM303C_MAG_OM_ULTRA_HIGH 		 =0x60,
 } LSM303C_MAG_OM_t;
 
 #define  	LSM303C_MAG_OM_MASK  	0x60
@@ -250,8 +250,8 @@ status_t LSM303C_MAG_R_OperatingModeXY(void *handle, LSM303C_MAG_OM_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_TEMP_EN_DISABLE 		 =0x00,
-  	LSM303C_MAG_TEMP_EN_ENABLE 		 =0x80,
+    LSM303C_MAG_TEMP_EN_DISABLE 		 =0x00,
+    LSM303C_MAG_TEMP_EN_ENABLE 		 =0x80,
 } LSM303C_MAG_TEMP_EN_t;
 
 #define  	LSM303C_MAG_TEMP_EN_MASK  	0x80
@@ -265,8 +265,8 @@ status_t LSM303C_MAG_R_TemperatureSensor(void *handle, LSM303C_MAG_TEMP_EN_t *va
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_SOFT_RST_NO 		 =0x00,
-  	LSM303C_MAG_SOFT_RST_YES 		 =0x04,
+    LSM303C_MAG_SOFT_RST_NO 		 =0x00,
+    LSM303C_MAG_SOFT_RST_YES 		 =0x04,
 } LSM303C_MAG_SOFT_RST_t;
 
 #define  	LSM303C_MAG_SOFT_RST_MASK  	0x04
@@ -280,8 +280,8 @@ status_t LSM303C_MAG_R_SoftRST(void *handle, LSM303C_MAG_SOFT_RST_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_REBOOT_NO 		 =0x00,
-  	LSM303C_MAG_REBOOT_YES 		 =0x08,
+    LSM303C_MAG_REBOOT_NO 		 =0x00,
+    LSM303C_MAG_REBOOT_YES 		 =0x08,
 } LSM303C_MAG_REBOOT_t;
 
 #define  	LSM303C_MAG_REBOOT_MASK  	0x08
@@ -295,8 +295,8 @@ status_t LSM303C_MAG_R_Reboot(void *handle, LSM303C_MAG_REBOOT_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_SIM_4_WIRE 		 =0x00,
-  	LSM303C_MAG_SIM_3_WIRE 		 =0x04,
+    LSM303C_MAG_SIM_4_WIRE 		 =0x00,
+    LSM303C_MAG_SIM_3_WIRE 		 =0x04,
 } LSM303C_MAG_SIM_t;
 
 #define  	LSM303C_MAG_SIM_MASK  	0x04
@@ -310,8 +310,8 @@ status_t LSM303C_MAG_R_SerialInterfaceMode(void *handle, LSM303C_MAG_SIM_t *valu
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_LP_DISABLE 		 =0x00,
-  	LSM303C_MAG_LP_ENABLE 		 =0x20,
+    LSM303C_MAG_LP_DISABLE 		 =0x00,
+    LSM303C_MAG_LP_ENABLE 		 =0x20,
 } LSM303C_MAG_LP_t;
 
 #define  	LSM303C_MAG_LP_MASK  	0x20
@@ -325,8 +325,8 @@ status_t LSM303C_MAG_R_FastLowPowerXYZ(void *handle, LSM303C_MAG_LP_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_BLE_INVERT 		 =0x00,
-  	LSM303C_MAG_BLE_DEFAULT 		 =0x02,
+    LSM303C_MAG_BLE_INVERT 		 =0x00,
+    LSM303C_MAG_BLE_DEFAULT 		 =0x02,
 } LSM303C_MAG_BLE_t;
 
 #define  	LSM303C_MAG_BLE_MASK  	0x02
@@ -340,10 +340,10 @@ status_t LSM303C_MAG_R_LittleBigEndianInversion(void *handle, LSM303C_MAG_BLE_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_OMZ_LOW_POWER 		 =0x00,
-  	LSM303C_MAG_OMZ_MEDIUM 		 =0x04,
-  	LSM303C_MAG_OMZ_HIGH 		 =0x08,
-  	LSM303C_MAG_OMZ_ULTRA_HIGH 		 =0x0C,
+    LSM303C_MAG_OMZ_LOW_POWER 		 =0x00,
+    LSM303C_MAG_OMZ_MEDIUM 		 =0x04,
+    LSM303C_MAG_OMZ_HIGH 		 =0x08,
+    LSM303C_MAG_OMZ_ULTRA_HIGH 		 =0x0C,
 } LSM303C_MAG_OMZ_t;
 
 #define  	LSM303C_MAG_OMZ_MASK  	0x0C
@@ -357,8 +357,8 @@ status_t LSM303C_MAG_R_OperatingModeZ(void *handle, LSM303C_MAG_OMZ_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_XDA_NOT_AVAILABLE 		 =0x00,
-  	LSM303C_MAG_XDA_AVAILABLE 		 =0x01,
+    LSM303C_MAG_XDA_NOT_AVAILABLE 		 =0x00,
+    LSM303C_MAG_XDA_AVAILABLE 		 =0x01,
 } LSM303C_MAG_XDA_t;
 
 #define  	LSM303C_MAG_XDA_MASK  	0x01
@@ -371,8 +371,8 @@ status_t LSM303C_MAG_R_NewXData(void *handle, LSM303C_MAG_XDA_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_YDA_NOT_AVAILABLE 		 =0x00,
-  	LSM303C_MAG_YDA_AVAILABLE 		 =0x02,
+    LSM303C_MAG_YDA_NOT_AVAILABLE 		 =0x00,
+    LSM303C_MAG_YDA_AVAILABLE 		 =0x02,
 } LSM303C_MAG_YDA_t;
 
 #define  	LSM303C_MAG_YDA_MASK  	0x02
@@ -385,8 +385,8 @@ status_t LSM303C_MAG_R_NewYData(void *handle, LSM303C_MAG_YDA_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ZDA_NOT_AVAILABLE 		 =0x00,
-  	LSM303C_MAG_ZDA_AVAILABLE 		 =0x04,
+    LSM303C_MAG_ZDA_NOT_AVAILABLE 		 =0x00,
+    LSM303C_MAG_ZDA_AVAILABLE 		 =0x04,
 } LSM303C_MAG_ZDA_t;
 
 #define  	LSM303C_MAG_ZDA_MASK  	0x04
@@ -399,8 +399,8 @@ status_t LSM303C_MAG_R_NewZData(void *handle, LSM303C_MAG_ZDA_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ZYXDA_NOT_AVAILABLE 		 =0x00,
-  	LSM303C_MAG_ZYXDA_AVAILABLE 		 =0x08,
+    LSM303C_MAG_ZYXDA_NOT_AVAILABLE 		 =0x00,
+    LSM303C_MAG_ZYXDA_AVAILABLE 		 =0x08,
 } LSM303C_MAG_ZYXDA_t;
 
 #define  	LSM303C_MAG_ZYXDA_MASK  	0x08
@@ -413,8 +413,8 @@ status_t LSM303C_MAG_R_NewXYZData(void *handle, LSM303C_MAG_ZYXDA_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_XOR_NOT_OVERRUN 		 =0x00,
-  	LSM303C_MAG_XOR_OVERRUN 		 =0x10,
+    LSM303C_MAG_XOR_NOT_OVERRUN 		 =0x00,
+    LSM303C_MAG_XOR_OVERRUN 		 =0x10,
 } LSM303C_MAG_XOR_t;
 
 #define  	LSM303C_MAG_XOR_MASK  	0x10
@@ -427,8 +427,8 @@ status_t LSM303C_MAG_R_DataXOverrun(void *handle, LSM303C_MAG_XOR_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_YOR_NOT_OVERRUN 		 =0x00,
-  	LSM303C_MAG_YOR_OVERRUN 		 =0x20,
+    LSM303C_MAG_YOR_NOT_OVERRUN 		 =0x00,
+    LSM303C_MAG_YOR_OVERRUN 		 =0x20,
 } LSM303C_MAG_YOR_t;
 
 #define  	LSM303C_MAG_YOR_MASK  	0x20
@@ -441,8 +441,8 @@ status_t LSM303C_MAG_R_DataYOverrun(void *handle, LSM303C_MAG_YOR_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ZOR_NOT_OVERRUN 		 =0x00,
-  	LSM303C_MAG_ZOR_OVERRUN 		 =0x40,
+    LSM303C_MAG_ZOR_NOT_OVERRUN 		 =0x00,
+    LSM303C_MAG_ZOR_OVERRUN 		 =0x40,
 } LSM303C_MAG_ZOR_t;
 
 #define  	LSM303C_MAG_ZOR_MASK  	0x40
@@ -455,8 +455,8 @@ status_t LSM303C_MAG_R_DataZOverrun(void *handle, LSM303C_MAG_ZOR_t *value);
 * Permission    : RO
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ZYXOR_NOT_OVERRUN 		 =0x00,
-  	LSM303C_MAG_ZYXOR_OVERRUN 		 =0x80,
+    LSM303C_MAG_ZYXOR_NOT_OVERRUN 		 =0x00,
+    LSM303C_MAG_ZYXOR_OVERRUN 		 =0x80,
 } LSM303C_MAG_ZYXOR_t;
 
 #define  	LSM303C_MAG_ZYXOR_MASK  	0x80
@@ -469,8 +469,8 @@ status_t LSM303C_MAG_R_DataXYZOverrun(void *handle, LSM303C_MAG_ZYXOR_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_IEN_DISABLE 		 =0x00,
-  	LSM303C_MAG_IEN_ENABLE 		 =0x01,
+    LSM303C_MAG_IEN_DISABLE 		 =0x00,
+    LSM303C_MAG_IEN_ENABLE 		 =0x01,
 } LSM303C_MAG_IEN_t;
 
 #define  	LSM303C_MAG_IEN_MASK  	0x01
@@ -484,8 +484,8 @@ status_t LSM303C_MAG_R_InterruptEnable(void *handle, LSM303C_MAG_IEN_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_LIR_LATCHED 		 =0x00,
-  	LSM303C_MAG_LIR_NOT_LATCHED 		 =0x02,
+    LSM303C_MAG_LIR_LATCHED 		 =0x00,
+    LSM303C_MAG_LIR_NOT_LATCHED 		 =0x02,
 } LSM303C_MAG_LIR_t;
 
 #define  	LSM303C_MAG_LIR_MASK  	0x02
@@ -499,8 +499,8 @@ status_t LSM303C_MAG_R_LatchInterruptRq(void *handle, LSM303C_MAG_LIR_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_IEA_LOW 		 =0x00,
-  	LSM303C_MAG_IEA_HIGH 		 =0x04,
+    LSM303C_MAG_IEA_LOW 		 =0x00,
+    LSM303C_MAG_IEA_HIGH 		 =0x04,
 } LSM303C_MAG_IEA_t;
 
 #define  	LSM303C_MAG_IEA_MASK  	0x04
@@ -514,8 +514,8 @@ status_t LSM303C_MAG_R_InterruptActive(void *handle, LSM303C_MAG_IEA_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_ZIEN_DISABLE 		 =0x00,
-  	LSM303C_MAG_ZIEN_ENABLE 		 =0x20,
+    LSM303C_MAG_ZIEN_DISABLE 		 =0x00,
+    LSM303C_MAG_ZIEN_ENABLE 		 =0x20,
 } LSM303C_MAG_ZIEN_t;
 
 #define  	LSM303C_MAG_ZIEN_MASK  	0x20
@@ -529,8 +529,8 @@ status_t LSM303C_MAG_R_InterruptOnZ(void *handle, LSM303C_MAG_ZIEN_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_YIEN_DISABLE 		 =0x00,
-  	LSM303C_MAG_YIEN_ENABLE 		 =0x40,
+    LSM303C_MAG_YIEN_DISABLE 		 =0x00,
+    LSM303C_MAG_YIEN_ENABLE 		 =0x40,
 } LSM303C_MAG_YIEN_t;
 
 #define  	LSM303C_MAG_YIEN_MASK  	0x40
@@ -544,8 +544,8 @@ status_t LSM303C_MAG_R_InterruptOnY(void *handle, LSM303C_MAG_YIEN_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_XIEN_DISABLE 		 =0x00,
-  	LSM303C_MAG_XIEN_ENABLE 		 =0x80,
+    LSM303C_MAG_XIEN_DISABLE 		 =0x00,
+    LSM303C_MAG_XIEN_ENABLE 		 =0x80,
 } LSM303C_MAG_XIEN_t;
 
 #define  	LSM303C_MAG_XIEN_MASK  	0x80
@@ -559,8 +559,8 @@ status_t LSM303C_MAG_R_InterruptOnX(void *handle, LSM303C_MAG_XIEN_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_INT_DOWN 		 =0x00,
-  	LSM303C_MAG_INT_UP 		 =0x01,
+    LSM303C_MAG_INT_DOWN 		 =0x00,
+    LSM303C_MAG_INT_UP 		 =0x01,
 } LSM303C_MAG_INT_t;
 
 #define  	LSM303C_MAG_INT_MASK  	0x01
@@ -574,8 +574,8 @@ status_t LSM303C_MAG_R_InterruptFlag(void *handle, LSM303C_MAG_INT_t *value);
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_MROI_IN_RANGE 		 =0x00,
-  	LSM303C_MAG_MROI_OVERFLOW 		 =0x02,
+    LSM303C_MAG_MROI_IN_RANGE 		 =0x00,
+    LSM303C_MAG_MROI_OVERFLOW 		 =0x02,
 } LSM303C_MAG_MROI_t;
 
 #define  	LSM303C_MAG_MROI_MASK  	0x02
@@ -589,8 +589,8 @@ status_t LSM303C_MAG_R_MagneticFieldOverflow(void *handle, LSM303C_MAG_MROI_t *v
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_NTH_Z_DOWN 		 =0x00,
-  	LSM303C_MAG_NTH_Z_UP 		 =0x04,
+    LSM303C_MAG_NTH_Z_DOWN 		 =0x00,
+    LSM303C_MAG_NTH_Z_UP 		 =0x04,
 } LSM303C_MAG_NTH_Z_t;
 
 #define  	LSM303C_MAG_NTH_Z_MASK  	0x04
@@ -604,8 +604,8 @@ status_t LSM303C_MAG_R_NegativeThresholdFlagZ(void *handle, LSM303C_MAG_NTH_Z_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_NTH_Y_DOWN 		 =0x00,
-  	LSM303C_MAG_NTH_Y_UP 		 =0x08,
+    LSM303C_MAG_NTH_Y_DOWN 		 =0x00,
+    LSM303C_MAG_NTH_Y_UP 		 =0x08,
 } LSM303C_MAG_NTH_Y_t;
 
 #define  	LSM303C_MAG_NTH_Y_MASK  	0x08
@@ -619,8 +619,8 @@ status_t LSM303C_MAG_R_NegativeThresholdFlagY(void *handle, LSM303C_MAG_NTH_Y_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_NTH_X_DOWN 		 =0x00,
-  	LSM303C_MAG_NTH_X_UP 		 =0x10,
+    LSM303C_MAG_NTH_X_DOWN 		 =0x00,
+    LSM303C_MAG_NTH_X_UP 		 =0x10,
 } LSM303C_MAG_NTH_X_t;
 
 #define  	LSM303C_MAG_NTH_X_MASK  	0x10
@@ -634,8 +634,8 @@ status_t LSM303C_MAG_R_NegativeThresholdFlagX(void *handle, LSM303C_MAG_NTH_X_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_PTH_Z_DOWN 		 =0x00,
-  	LSM303C_MAG_PTH_Z_UP 		 =0x20,
+    LSM303C_MAG_PTH_Z_DOWN 		 =0x00,
+    LSM303C_MAG_PTH_Z_UP 		 =0x20,
 } LSM303C_MAG_PTH_Z_t;
 
 #define  	LSM303C_MAG_PTH_Z_MASK  	0x20
@@ -649,8 +649,8 @@ status_t LSM303C_MAG_R_PositiveThresholdFlagZ(void *handle, LSM303C_MAG_PTH_Z_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_PTH_Y_DOWN 		 =0x00,
-  	LSM303C_MAG_PTH_Y_UP 		 =0x40,
+    LSM303C_MAG_PTH_Y_DOWN 		 =0x00,
+    LSM303C_MAG_PTH_Y_UP 		 =0x40,
 } LSM303C_MAG_PTH_Y_t;
 
 #define  	LSM303C_MAG_PTH_Y_MASK  	0x40
@@ -664,8 +664,8 @@ status_t LSM303C_MAG_R_PositiveThresholdFlagY(void *handle, LSM303C_MAG_PTH_Y_t 
 * Permission    : RW
 *******************************************************************************/
 typedef enum {
-  	LSM303C_MAG_PTH_X_DOWN 		 =0x00,
-  	LSM303C_MAG_PTH_X_UP 		 =0x80,
+    LSM303C_MAG_PTH_X_DOWN 		 =0x00,
+    LSM303C_MAG_PTH_X_UP 		 =0x80,
 } LSM303C_MAG_PTH_X_t;
 
 #define  	LSM303C_MAG_PTH_X_MASK  	0x80

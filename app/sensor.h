@@ -30,11 +30,13 @@
 /*-------------------------------------------------------------------------------------*/
 
 
-#define POWER_ENLARGE_NUM    (39.2+6.19)/6.19
+#define POWER_ENLARGE_NUM    ((39.2+6.19)/6.19)
 
-void SensorInit(void);
-void SensorGet(void);
-void SensorSet(void);
+void sensor_init(void);
+void sensor_poll(void);
+void sensor_set(void);
+
+extern uint8_t SensorPollOn;
 
 #endif
 

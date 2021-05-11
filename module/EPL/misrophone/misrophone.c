@@ -1,6 +1,6 @@
 #include "misrophone.h"
 
-void Misrophone_Init(void)
+void misrophone_init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
   RCC_AHB1PeriphClockCmd(Mike_RCC,ENABLE); 

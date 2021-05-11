@@ -5,7 +5,6 @@
 #include "string.h"
 #include "stm32f4xx.h"
 
-
 #define INST_PING           0x01
 #define INST_READ           0x02
 #define INST_WRITE          0x03
@@ -19,7 +18,6 @@
 #define INST_SYNC_REG_WRITE 0x84
 #define INST_BULK_READ      0x92
 
-
 #define VOLTAGE_ERROR_BIT     0x01
 #define ANGLE_LIMIT_ERROR_BIT 0x02
 #define OVERHEATING_ERROR_BIT 0x04
@@ -29,13 +27,12 @@
 #define INSTRUCTION_ERROR_BIT 0x40
 
 #define BROADCASTING_ID 0xfe
-#define DEFAULT_ID	200
+#define DEFAULT_ID 200
+#define BYTE2BYTE_TIME 100 // ms
+#define BUFFER_SIZE 256
 
-#define BUFFER_SIZE     256
-
-
-#define DXL_USART         USART1
-#define PC_USART          USART3
+#define USART_DXL         USART1
+#define USART_PC          USART3
 
 #define DXL_POWER_L()     GPIO_ResetBits(GPIOB, GPIO_Pin_8)
 #define DXL_POWER_H()     GPIO_SetBits(GPIOB, GPIO_Pin_8)
@@ -46,50 +43,30 @@
 #define DXL_RX_EN_L()     GPIO_ResetBits(GPIOB, GPIO_Pin_5)
 #define DXL_RX_EN_H()     GPIO_SetBits(GPIOB, GPIO_Pin_5)
 
-
 typedef enum
 {
-  DXL_IN = 0,
-  DXL_OUT,
-}DXL_Mode_t;
-
+  DXL_DIR_IN = 0,
+  DXL_DIR_OUT
+}DXL_Direction_t;
 
 typedef struct
 {
   uint8_t power;
-  DXL_Mode_t mode;
+  DXL_Direction_t dir;
 }DXL_Status_t;
 
+void dxl_irqBus(void);
+void dxl_irqPc(void);
 
-typedef struct
-{
-  uint8_t data[255];
-  uint16_t offset;
-  uint16_t flags;
-}Buffer_t;
+void dxl_portInit(uint8_t value);
+void dxl_setPower(uint8_t status);
+uint8_t dxl_getPower(void);
+void dxl_setDirection(DXL_Direction_t mode);
+DXL_Direction_t dxl_getDirection(void);
 
-
-
-
-void DXL_ISR(void);
-void PC_ISR(void);
-
-void DXL_SetPower(uint8_t status);
-uint8_t DXL_GetPower(void);
-
-void DXL_SetMode(DXL_Mode_t mode);
-DXL_Mode_t DXL_GetMode(void);
-
-void DXL2PC_StatusSet(uint8_t status);
-uint8_t DXL2PC_StatusGet(void);
-
-void DXL_Init(void);
-void DXL_BaudRateSet(uint32_t baud);
-
-void DXL_SendData(uint8_t *data, uint16_t len);
-void PC_SendData(uint8_t *data, uint16_t len);
-void ReturnStatusPacket(uint8_t status, uint8_t *param, uint8_t paramLen);
-void DXL_Poll(void);
+void dxl_init(void);
+void dxl_setBaudRate(uint32_t baud);
+void dxl_poll(void);
 
 
 #endif

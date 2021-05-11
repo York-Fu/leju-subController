@@ -4,7 +4,7 @@
 #include "stm32f4xx.h"
 
 
-#define DEFAULT_BAUD_RATE 1    //1Mbps at 16MHz
+#define DEFAULT_BAUD_RATE 1  //1Mbps
 #define PROGRAM_VERSION 0x13     // for ax12, freq. selectable
 #define CW_ANGLE_FIXED_LIMIT 0 // 0+30 dudung031002
 #define CCW_ANGLE_FIXED_LIMIT (1023) // 300-30 dudung031002
@@ -168,10 +168,10 @@ typedef enum
 extern volatile uint8_t gbpControlTable[CONTROL_TABLE_LEN+1];
 
 
-void DxlRegisterInit(void);
+void dxl_cm730Init(void);
 
-uint8_t DxlRegisterRead(uint8_t *data, uint8_t addr, uint8_t length);
-uint8_t DxlRegisterWrite(uint8_t addr, uint8_t *param, uint8_t paramLen);
-void DR_TableProcess(uint8_t addr, uint8_t len);
+uint8_t DR_read(uint8_t *data, uint8_t addr, uint8_t length);
+uint8_t DR_write(uint8_t addr, uint8_t *param, uint8_t paramLen);
+void DR_tableProcess(uint8_t addr, uint8_t len);
 
 #endif

@@ -34,7 +34,7 @@ void Uart3_Init(uint32_t bpr)
     /* Enable the USARTz Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART3_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   /* Enable USARTy Receive and Transmit interrupts */
@@ -49,7 +49,7 @@ void Uart3_SendByte(unsigned char x)
 {
   USART_SendData(USART3, x);
     // Loop until the end of transmission 
-  while(USART_GetFlagStatus(USART3, USART_FLAG_TXE) == RESET);
+  while(USART_GetFlagStatus(USART3, USART_FLAG_TC) == RESET);
 }
 
 /*PUTCHAR_PROTOTYPE
@@ -92,7 +92,7 @@ void USART3_IRQHandler(void)
 
 void USART3_IRQHandler(void)
 {
-  PC_ISR();
+  dxl_irqPc();
 }
 
 #endif

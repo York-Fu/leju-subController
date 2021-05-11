@@ -1,8 +1,8 @@
 #include "led/led.h"
 
-void LedInit()
+void led_init()
 {
-  GPIO_InitTypeDef  GPIO_InitStructure;
+  GPIO_InitTypeDef GPIO_InitStructure;
 
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -29,56 +29,70 @@ void LedInit()
   GPIO_InitStructure.GPIO_Pin = LED5_PIN;
   GPIO_Init(LED5_GPIO, &GPIO_InitStructure);
 
-  LDE1_H();
-  LDE2_H();
-  LDE3_H();
-  LDE4_H();
-  LDE5_H();
+  led_allSwitch(0);
 }
 
-
-void LedOn(uint8_t index)
+void led_on(uint8_t index)
 {
-  switch(index)
+  switch (index)
   {
-    case 1:
-      LDE1_L();
-      break;
-    case 2:
-      LDE2_L();
-      break;
-    case 3:
-      LDE3_L();
-      break;
-    case 4:
-      LDE4_L();
-      break;
-    case 5:
-      LDE5_L();
-      break;
+  case 1:
+    LDE1_L();
+    break;
+  case 2:
+    LDE2_L();
+    break;
+  case 3:
+    LDE3_L();
+    break;
+  case 4:
+    LDE4_L();
+    break;
+  case 5:
+    LDE5_L();
+    break;
   }
 }
 
-
-void LedOff(uint8_t index)
+void led_off(uint8_t index)
 {
-  switch(index)
+  switch (index)
   {
-    case 1:
-      LDE1_H();
-      break;
-    case 2:
-      LDE2_H();
-      break;
-    case 3:
-      LDE3_H();
-      break;
-    case 4:
-      LDE4_H();
-      break;
-    case 5:
-      LDE5_H();
-      break;
+  case 1:
+    LDE1_H();
+    break;
+  case 2:
+    LDE2_H();
+    break;
+  case 3:
+    LDE3_H();
+    break;
+  case 4:
+    LDE4_H();
+    break;
+  case 5:
+    LDE5_H();
+    break;
   }
 }
 
+void led_set(uint8_t state)
+{
+  uint8_t mask = 0;
+  for (uint8_t i = 0; i <= 5; i++)
+  {
+    mask = (1 << i);
+    if ((state & mask) == mask)
+      led_on(i);
+    else
+      led_off(i);
+  }
+}
+
+void led_allSwitch(uint8_t state)
+{
+  if (state)
+    led_set(0xFF);
+  else
+    led_set(0x00);
+}

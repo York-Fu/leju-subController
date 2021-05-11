@@ -4,157 +4,144 @@
 #include "adc/adc.h"
 #include "led/led.h"
 #include "key/key.h"
-#include "APL_IMU/IMU.h"
+#include "imu.h"
 #include "VL53L0/VL53L0.h"
-#include "misrophone/misrophone.h"
 #include "Buzzer/Buzzer.h"
 
 /* Sensor get -----------------------------------------------------------------------*/
 
-void SensorGetAdc()
+void sensor_getADC()
 {
-  uint16_t adcValue = Get_Adc_Average(11, 10);
-  DATA_VBAT_ADC = ((double)adcValue)/4096*3.3*POWER_ENLARGE_NUM*10;
+  DATA_VBAT_ADC = (uint8_t)((double)ADC_GetValue() / 4096 * 3.3 * POWER_ENLARGE_NUM * 10);
 }
 
-
-void SensorGetKey()
+void sensor_getKey()
 {
   uint8_t keyStatus = 0;
-  
+
   keyStatus = KeyStatusAllGet();
-  
-  DATA_KEY1_STATUS = (keyStatus>>0)&(0x01);
-  DATA_KEY2_STATUS = (keyStatus>>1)&(0x01);
-  DATA_KEY3_STATUS = (keyStatus>>2)&(0x01);
-  DATA_KEY4_STATUS = (keyStatus>>3)&(0x01);
-  DATA_KEY5_STATUS = (keyStatus>>4)&(0x01);
+
+  DATA_KEY1_STATUS = (keyStatus >> 0) & (0x01);
+  DATA_KEY2_STATUS = (keyStatus >> 1) & (0x01);
+  DATA_KEY3_STATUS = (keyStatus >> 2) & (0x01);
+  DATA_KEY4_STATUS = (keyStatus >> 3) & (0x01);
+  DATA_KEY5_STATUS = (keyStatus >> 4) & (0x01);
 }
 
-
-void SensorGetImu()
+void sensor_getImu()
 {
-  ImuData_t imuData = {0};
-  
-  IMU_GetData(&imuData);
-  
-  DATA_GYRO_X = imuData.gray.x;
-  DATA_GYRO_Y = imuData.gray.y;
-  DATA_GYRO_Z = imuData.gray.z;
-  DATA_ACCEL_X = imuData.accel.x;
-  DATA_ACCEL_Y = imuData.accel.y;
-  DATA_ACCEL_Z = imuData.accel.z;
-  DATA_MAGNETIC_X = imuData.magnetic.x;
-  DATA_MAGNETIC_Y = imuData.magnetic.y;
-  DATA_MAGNETIC_Z = imuData.magnetic.z;
+  int16_t imuData[9];
+  imu_getData(imuData);
+  DATA_GYRO_X = imuData[0];
+  DATA_GYRO_Y = imuData[1];
+  DATA_GYRO_Z = imuData[2];
+  DATA_ACCEL_X = imuData[3];
+  DATA_ACCEL_Y = imuData[4];
+  DATA_ACCEL_Z = imuData[5];
+  DATA_MAGNETIC_X = imuData[6];
+  DATA_MAGNETIC_Y = imuData[7];
+  DATA_MAGNETIC_Z = imuData[8];
 }
 
-void SensorGetDistance()
+void sensor_getDistance()
 {
-	DATA_DISTANCE = VL53L0_Get();
-}
-
-
-void DXL_PowerControl()
-{
-  static uint8_t flag = 0;
-  if(DATA_KEY1_STATUS && !flag)
-  {
-    if(DXL_GetPower())
-    {
-      DXL_SetPower(0);
-      DATA_DYNAMIXEL_POWER = 0;
-    }
-    else
-    {
-      DXL_SetPower(1);
-      DATA_DYNAMIXEL_POWER = 1;
-    }
-    flag = 1;
-  }
-  else if(!DATA_KEY1_STATUS && flag)
-    flag = 0;
-}
-
-void BuzzerWarning()
-{
-	float PowerBattary = DATA_VBAT_ADC/10.0;
-	if(PowerBattary < 11)
-		BuzzerRing();
-	else 
-    BuzzerRingStop();
-}
-
-void SensorGet()
-{
-  SensorGetAdc();
-  SensorGetImu();
-  SensorGetKey();
-	SensorGetDistance();
-	BuzzerWarning();
-	DXL_PowerControl();
+  DATA_DISTANCE = VL53L0_Get();
 }
 
 /* Sensor set -----------------------------------------------------------------------*/
 
-void SensorSetLed()
+void sensor_setLed()
 {
-  for(uint8_t i=0;i<5;i++)
+  for (uint8_t i = 0; i < 5; i++)
   {
-    if(DATA_LED_STATUS & (1<<i))
-      LedOn(i+1);
+    if (DATA_LED_STATUS & (1 << i))
+      led_on(i + 1);
     else
-      LedOff(i+1);
+      led_off(i + 1);
   }
 }
 
-
-//void SensorSetRgb()
-//{
-//  for(uint8_t i=0;i<5;i++)
-//  {
-//    if(DATA_RGB_STATUS & (1<<(i*3)))
-//      LedOn(i+1);
-//    else
-//      LedOff(i+1);
-//    
-//    if(DATA_RGB_STATUS & (1<<(i*3+1)))
-//    {
-//    }
-//    
-//    if(DATA_RGB_STATUS & (1<<(i*3+2)))
-//    {
-//    }
-//  }
-//}
-
-
-void SensorSet()
+void sensor_set()
 {
-  SensorSetLed();
+  sensor_setLed();
 }
 
 /* Sensor --------------------------------------------------------------------------*/
 
-void SensorIrq()
+void dxl_powerCtl()
 {
-  SensorGet();
+  static uint8_t flag = 0;
+  if (DATA_KEY1_STATUS && !flag)
+  {
+    if (dxl_getPower())
+    {
+      dxl_setPower(0);
+      DATA_DYNAMIXEL_POWER = 0;
+      key_buzzer(1);
+    }
+    else
+    {
+      dxl_setPower(1);
+      DATA_DYNAMIXEL_POWER = 1;
+      key_buzzer(2);
+    }
+    flag = 1;
+  }
+  else if (!DATA_KEY1_STATUS && flag)
+    flag = 0;
 }
 
-
-void SensorInit()
+void buzzer_warning()
 {
-  delay_ms(10);
-  Adc_Init();
-  LedInit();
-  KeyInit();
-  IMU_Init();
-  BuzzerInit();
+  float PowerBattary = DATA_VBAT_ADC / 10.0;
+  Buzzer(PowerBattary);
+}
+
+#define TIMER_TIME_MS (5.0) // ms
+
+void sensor_poll()
+{
+  static uint32_t count = 0;
+  sensor_getADC();
+  sensor_getImu();
+  if (count % (uint32_t)(100.0 / TIMER_TIME_MS) == 0)
+  {
+    sensor_getKey();
+    sensor_getDistance();
+    buzzer_warning();
+    dxl_powerCtl();
+  }
+  count++;
+  if (count >= 1000)
+    count = 0;
+}
+
+static void irqHandle()
+{
+  sensor_poll();
+}
+
+void sensor_init()
+{
+  ADC_Config();
+  IIC_Init();
+  key_init();
+
+  uint32_t count = 0;
+  while (imu_init())
+  {
+    led_on(1);
+    delay_ms(50);
+    led_off(1);
+    delay_ms(50);
+    count++;
+    if (count >= 20)
+    {
+      break;
+    }
+  }
   VL53L0_ALL_Init();
-  Misrophone_Init();
-  Tim2Irq_Set(SensorIrq);
-  Tim2IntInit(20000-1,672-1); // 40ms
+
+  Tim2Irq_Set(irqHandle);
+  Tim2IntInit(TIMER_TIME_MS * 1000 - 1, 84 - 1);
 }
-
-
-

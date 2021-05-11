@@ -6,13 +6,13 @@
 #include "vl53l0x_platform.h"
 #include "vl53l0x_cali.h"
 
-#define Xshut_RCC    RCC_AHB1Periph_GPIOB
-#define Xshut_GPIO   GPIOB
-#define Xshut_PIN    GPIO_Pin_14
+#define VL53L0_EN_CLK			RCC_AHB1Periph_GPIOB
+#define VL53L0_EN_GPIO_PORT		GPIOB
+#define VL53L0_EN_GPIO_PIN		GPIO_Pin_14
 
 //控制Xshut电平,从而使能VL53L0X工作 1:使能 0:关闭
-#define Xshut_H()    GPIO_SetBits(Xshut_GPIO, Xshut_PIN)
-#define Xshut_L()    GPIO_ResetBits(Xshut_GPIO, Xshut_PIN)
+#define VL53L0_EN_ON()		GPIO_SetBits(VL53L0_EN_GPIO_PORT, VL53L0_EN_GPIO_PIN)
+#define VL53L0_EN_OFF()		GPIO_ResetBits(VL53L0_EN_GPIO_PORT, VL53L0_EN_GPIO_PIN)
 
 //使能2.8V IO电平模式
 #define USE_I2C_2V8  1

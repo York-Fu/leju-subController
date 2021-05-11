@@ -35,7 +35,7 @@ void Uart1_Init(uint32_t bpr)
     /* Enable the USARTz Interrupt */
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
   NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
   NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
   NVIC_Init(&NVIC_InitStructure);
   /* Enable USARTy Receive and Transmit interrupts */
@@ -50,7 +50,7 @@ void Uart1_SendByte(unsigned char x)
 {
   USART_SendData(USART1, x);
     // Loop until the end of transmission 
-  while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);
+  while(USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);
 }
 
 /*PUTCHAR_PROTOTYPE
@@ -93,7 +93,7 @@ void USART1_IRQHandler(void)
 
 void USART1_IRQHandler(void)
 {
-  DXL_ISR();
+  dxl_irqBus();
 }
 
 #endif

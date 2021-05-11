@@ -11,6 +11,6 @@
 #define Mike_Disable()    GPIO_ResetBits(Mike_GPIO, Mike_PIN)  //Ê§ÄÜÑïÉùÆ÷
 
 
-void Misrophone_Init(void);
+void misrophone_init(void);
 	
 #endif
